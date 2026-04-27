@@ -1,0 +1,24 @@
+# Core
+python-dotenv==1.0.0
+
+# Simulation & Data
+numpy==1.26.4
+pandas==2.2.2
+
+# AI/ML
+scikit-learn==1.4.2
+xgboost==2.0.3
+joblib==1.4.2
+
+# Google Gemini
+google-generativeai==0.5.4
+
+# Dashboard
+streamlit==1.35.0
+plotly==5.22.0
+
+# Firebase (optional but recommended)
+firebase-admin==6.5.0
+
+# Testing
+pytest==8.2.0
