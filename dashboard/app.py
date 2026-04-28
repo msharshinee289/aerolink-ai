@@ -122,6 +122,7 @@ def render_header(theme: str = "dark"):
             </div>
             <div style="font-family:'Share Tech Mono',monospace; font-size:12px;
                         color:{sub_color}; letter-spacing:3px; margin-top:2px;">
+                <span style="color:#4a9eff;">🛰️ Switch ON Monitoring in the controls Panel</span><br>        
                 PREDICTIVE AIRCRAFT COMMUNICATION SYSTEM
             </div>
         </div>
@@ -173,6 +174,13 @@ def render_sidebar(theme: str = "dark"):
             Built for <b>Google Solution Challenge 2026</b>.
         </div>
         """, unsafe_allow_html=True)
+        if "running" not in st.session_state:
+            st.session_state.running = False
+
+        st.session_state.running = st.toggle(
+            "🛰️ Switch ON Monitoring",
+            value=False
+        )
         st.markdown("Theme")
         is_light = st.toggle("Light Mode", value=False)
         st.session_state.theme = "light" if is_light else "dark"
@@ -211,7 +219,7 @@ def main():
     mgr    = st.session_state.manager
     logic  = st.session_state.switch_logic
 
-    # ── One tick of simulation ─────────────────────────────────────────────
+    # Always run one tick so UI has data to display
     readings = sim.tick()
     probs    = pred.predict_all(readings)
     logic.evaluate(readings, probs)
@@ -219,10 +227,7 @@ def main():
     st.session_state.tick += 1
     tick = st.session_state.tick
 
-    # Push to chart history
     update_history(readings, tick)
-
-    # Get full state snapshot
     snapshot = mgr.get_snapshot()
 
     # ── Render UI ──────────────────────────────────────────────────────────
@@ -239,14 +244,13 @@ def main():
 
     st.markdown("<div style='height:16px'></div>", unsafe_allow_html=True)
 
-    # Event log takes full width
+    hr_color = "#7ab0d8" if theme == "light" else "#1e3a6e"
     st.markdown(f"""
-    <hr style="border:none; border-top:1px solid #1e3a6e; margin:8px 0 20px 0;">
+    <hr style="border:none; border-top:1px solid {hr_color}; margin:8px 0 20px 0;">
     """, unsafe_allow_html=True)
 
     render_event_log(snapshot["event_log"])
 
-    # ── Footer ─────────────────────────────────────────────────────────────
     st.markdown(f"""
     <div style="text-align:center; font-family:'Share Tech Mono',monospace;
                 font-size:11px; color:#2a4060; margin-top:24px;">
@@ -255,9 +259,10 @@ def main():
     </div>
     """, unsafe_allow_html=True)
 
-    # ── Auto-refresh ───────────────────────────────────────────────────────
-    time.sleep(speed)
-    st.rerun()
+    # Only auto-refresh if monitoring toggle is ON
+    if st.session_state.get("running"):
+        time.sleep(speed)
+        st.rerun()
 
 
 if __name__ == "__main__":

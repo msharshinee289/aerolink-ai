@@ -78,7 +78,7 @@ Then open `http://localhost:8501` in your browser.
 
 ## Basic Usage
 
-Once the dashboard is running, the simulation starts automatically. You will see three channel cards at the top showing the health score and failure probability for WiFi, 5G, and Satellite in real time.
+Once the dashboard is running, the simulation is paused by default. Use the sidebar controls and click **" Switch ON Monitoring"** to start the live simulation. You will see three channel cards at the top showing the health score and failure probability for WiFi, 5G, and Satellite in real time.
 
 The active channel is highlighted with a blue border and an ACTIVE badge. As signals degrade, the health score drops and the failure probability bar turns yellow then red. When the AI predicts imminent failure with more than 70% confidence, the system switches to the next healthiest channel.
 
@@ -93,7 +93,7 @@ You can adjust the simulation speed using the slider in the sidebar. The weather
 **System monitoring — normal state**
 ![Normal state](screenshots/screenshot1.png)
 
-**Channel switch detected**
+**Active monitoring**
 ![Switch event](screenshots/screenshot2.png)
 
 **System event log with Gemini explanations**
